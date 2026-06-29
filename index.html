@@ -16,6 +16,9 @@
     .card:hover { border-color: #666; transform: translateY(-4px); }
     .card h2 { font-size: 1.5rem; margin-bottom: 0.5rem; font-weight: 500; }
     .card p { color: #aaa; line-height: 1.6; }
+    .portfolio { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; max-width: 1060px; width: 100%; margin-top: 4rem; }
+    .folio { background: linear-gradient(135deg, #1a1a1a 0%, #222 100%); border: 1px solid #333; border-radius: 10px; height: 180px; display: flex; align-items: flex-end; padding: 1rem; font-size: 0.85rem; color: #666; }
+    .section-label { color: #555; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; margin: 4rem 0 1.5rem; }
     
   </style>
 </head>
@@ -35,6 +38,13 @@
       <h2>Contact</h2>
       <p>Coming soon.</p>
     </div>
+  </div>
+  <p class="section-label">Portfolio</p>
+  <div class="portfolio">
+    <div class="folio">Chicago Adaptive Reuse — Office → Residential</div>
+    <div class="folio">West Loop Minimalist — 4,200 sqft</div>
+    <div class="folio">Lincoln Park ICF Build — 5,800 sqft</div>
+    <div class="folio">Coming Soon</div>
   </div>
   <footer style="text-align:center;color:#555;padding:2rem 1rem 3rem;font-size:0.85rem">&copy; 2026 FatCat Asset Management</footer>
 </body>
