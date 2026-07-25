@@ -109,14 +109,44 @@ footer a:hover{color:var(--gold)}
 <section id="contact">
   <div class="wrap">
     <div class="contact-box">
-      <div class="eyebrow">Contact</div>
+      <div class="eyebrow">Owner Intake</div>
       <h2>Get a quote on your property.</h2>
-      <p>Send us the address. We'll send back a rental analysis and a management quote within 24 hours.</p>
-      <p class="email">negotiatorsondemand@gmail.com</p>
-      <a href="mailto:negotiatorsondemand@gmail.com?subject=FatCat%20PM%20—%20Management%20Quote" class="btn gold" style="margin-top:20px">Email Us</a>
+      <p>Address + a few details. We'll send back a rental analysis and a management quote within 24 hours.</p>
+      <form id="intakeForm" style="text-align:left;max-width:520px;margin:24px auto 0;display:grid;gap:12px">
+        <input required name="name" placeholder="Your name" style="padding:12px;background:var(--ink);border:1px solid var(--line);color:var(--text);border-radius:6px">
+        <input required type="email" name="email" placeholder="Email" style="padding:12px;background:var(--ink);border:1px solid var(--line);color:var(--text);border-radius:6px">
+        <input name="phone" placeholder="Phone" style="padding:12px;background:var(--ink);border:1px solid var(--line);color:var(--text);border-radius:6px">
+        <input required name="address" placeholder="Property address (Chicago)" style="padding:12px;background:var(--ink);border:1px solid var(--line);color:var(--text);border-radius:6px">
+        <select name="ptype" style="padding:12px;background:var(--ink);border:1px solid var(--line);color:var(--text);border-radius:6px">
+          <option value="single-family">Single-family</option>
+          <option value="multi-family">Multi-family (2–12 units)</option>
+          <option value="high-rise">High-rise / condo building</option>
+          <option value="skyscraper">Skyscraper / large complex</option>
+        </select>
+        <input type="number" name="units" min="1" placeholder="# of units" style="padding:12px;background:var(--ink);border:1px solid var(--line);color:var(--text);border-radius:6px">
+        <textarea name="notes" rows="3" placeholder="Current rent, vacancy, anything else" style="padding:12px;background:var(--ink);border:1px solid var(--line);color:var(--text);border-radius:6px"></textarea>
+        <button class="btn gold" type="submit" style="border:none;cursor:pointer">Request Quote</button>
+        <div id="intakeMsg" style="text-align:center;font-size:14px"></div>
+      </form>
+      <p style="margin-top:24px;font-size:13px;color:var(--muted)">Prefer email? <a href="mailto:negotiatorsondemand@gmail.com?subject=FatCat%20PM%20—%20Management%20Quote" style="color:var(--gold)">negotiatorsondemand@gmail.com</a></p>
     </div>
   </div>
 </section>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ponytail: single-table intake, no auth — RLS insert-only on supabase side
+const _sb = supabase.createClient('https://iubxycckgrplbpdbncfk.supabase.co','sb_publishable_L92hXORLG-Df4WiZxVq-6Q_X3AB47yl');
+document.getElementById('intakeForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const f = e.target, msg = document.getElementById('intakeMsg');
+  const row = Object.fromEntries(new FormData(f).entries());
+  row.created_at = new Date().toISOString();
+  msg.style.color='var(--muted)'; msg.textContent='Sending…';
+  const {error} = await _sb.from('fatcatpm_intake').insert(row);
+  if(error){ msg.style.color='#e57373'; msg.textContent='Error — email us instead: negotiatorsondemand@gmail.com'; console.error(error); }
+  else { msg.style.color='var(--gold)'; msg.textContent='✓ Got it. We\'ll reply within 24 hours.'; f.reset(); }
+});
+</script>
 
 <footer>
   <p>© 2026 FatCat Property Management · Chicago · A FatCat Asset Management Company</p>
