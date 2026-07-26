@@ -18,6 +18,7 @@ nav .logo span{color:var(--gold)}
 nav .links{display:flex;gap:24px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 nav .links a:hover{color:var(--gold)}
 @media(max-width:640px){nav .links{display:none}}
+@media(max-width:640px){.hero{padding:64px 20px 56px}.btn{width:100%;margin:6px 0!important;text-align:center}section{padding:56px 0}input,select,textarea{font-size:16px}}
 
 .hero{padding:96px 24px 72px;border-bottom:1px solid var(--line);text-align:center;position:relative;overflow:hidden}
 /* ponytail: animated gradient + skyline silhouette, pure CSS */
@@ -180,5 +181,32 @@ document.getElementById('intakeForm').addEventListener('submit', async e=>{
   <p style="margin-top:8px"><a href="https://fatcatam.com">fatcatam.com</a> · <a href="https://negotiatorsondemand.com">negotiatorsondemand.com</a></p>
 </footer>
 
+
+<script>
+// ponytail: pointer glow + stagger + hero parallax. Disabled on touch / reduced-motion.
+(function(){
+  const fine = matchMedia('(pointer:fine)').matches;
+  const rm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // stagger: give .rv siblings incremental delays
+  document.querySelectorAll('.rv').forEach((el,i)=>{ el.style.transitionDelay = (i%8)*60+'ms'; });
+  if(!fine || rm) return;
+  // mouse glow
+  const g = document.createElement('div');
+  g.style.cssText = 'position:fixed;width:420px;height:420px;border-radius:50%;pointer-events:none;z-index:0;background:radial-gradient(circle,rgba(212,168,83,.10),transparent 60%);transform:translate(-50%,-50%);transition:opacity .3s;opacity:0';
+  document.body.appendChild(g);
+  let gx=0,gy=0,cx=0,cy=0;
+  addEventListener('pointermove',e=>{ gx=e.clientX; gy=e.clientY; g.style.opacity=1; },{passive:true});
+  document.addEventListener('pointerleave',()=>g.style.opacity=0);
+  (function loop(){ cx+=(gx-cx)*.12; cy+=(gy-cy)*.12; g.style.left=cx+'px'; g.style.top=cy+'px'; requestAnimationFrame(loop); })();
+  // hero parallax: shift hero content slightly on scroll
+  const hero = document.querySelector('.hero,header');
+  if(hero){
+    addEventListener('scroll',()=>{
+      const y = scrollY;
+      if(y<600) hero.style.transform = 'translateY('+y*.18+'px)';
+    },{passive:true});
+  }
+})();
+</script>
 </body>
 </html>
