@@ -23,12 +23,16 @@ nav .links a:hover{color:var(--gold)}
 .hero{padding:96px 24px 72px;border-bottom:1px solid var(--line);text-align:center;position:relative;overflow:hidden}
 /* ponytail: animated gradient + skyline silhouette, pure CSS */
 .hero::before{content:"";position:absolute;inset:-50%;background:radial-gradient(circle at 30% 40%,rgba(212,168,83,.18),transparent 50%),radial-gradient(circle at 70% 60%,rgba(212,168,83,.10),transparent 50%);animation:heroDrift 18s ease-in-out infinite alternate;z-index:0;pointer-events:none}
-.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:120px;background:
-  linear-gradient(to top,var(--ink) 20%,transparent),
-  repeating-linear-gradient(to right,transparent 0 30px,rgba(212,168,83,.08) 30px 34px,transparent 34px 70px),
-  linear-gradient(to top,rgba(212,168,83,.15),transparent);
-  clip-path:polygon(0 100%,0 60%,4% 60%,4% 35%,8% 35%,8% 65%,12% 65%,12% 20%,17% 20%,17% 55%,22% 55%,22% 40%,27% 40%,27% 70%,33% 70%,33% 25%,38% 25%,38% 50%,44% 50%,44% 15%,50% 15%,50% 60%,56% 60%,56% 35%,62% 35%,62% 65%,68% 65%,68% 22%,74% 22%,74% 55%,80% 55%,80% 40%,86% 40%,86% 68%,92% 68%,92% 30%,96% 30%,96% 55%,100% 55%,100% 100%);pointer-events:none;z-index:0}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:120px;pointer-events:none;z-index:0}
+/* ponytail: skyline parallax layers — see skill skyline-parallax */
+.skyline{position:absolute;left:0;right:0;bottom:0;pointer-events:none;z-index:0;will-change:transform}
+.skyline.back{height:180px;opacity:.35;background:rgba(212,168,83,.12);
+ clip-path:polygon(0 100%,0 70%,5% 70%,5% 45%,10% 45%,10% 75%,15% 75%,15% 30%,20% 30%,20% 65%,26% 65%,26% 50%,32% 50%,32% 80%,38% 80%,38% 35%,44% 35%,44% 60%,50% 60%,50% 25%,56% 25%,56% 70%,62% 70%,62% 45%,68% 45%,68% 75%,74% 75%,74% 32%,80% 32%,80% 65%,86% 65%,86% 50%,92% 50%,92% 78%,96% 78%,96% 40%,100% 40%,100% 100%)}
+.skyline.front{height:120px;background:linear-gradient(to top,var(--ink) 15%,rgba(212,168,83,.18));
+ clip-path:polygon(0 100%,0 60%,4% 60%,4% 35%,8% 35%,8% 65%,12% 65%,12% 20%,17% 20%,17% 55%,22% 55%,22% 40%,27% 40%,27% 70%,33% 70%,33% 25%,38% 25%,38% 50%,44% 50%,44% 15%,50% 15%,50% 60%,56% 60%,56% 35%,62% 35%,62% 65%,68% 65%,68% 22%,74% 22%,74% 55%,80% 55%,80% 40%,86% 40%,86% 68%,92% 68%,92% 30%,96% 30%,96% 55%,100% 55%,100% 100%)}
+@media(prefers-reduced-motion:reduce){.skyline{transform:none!important}}
 .hero>*{position:relative;z-index:1}
+.hero>.skyline{position:absolute;z-index:0}
 @keyframes heroDrift{from{transform:translate(-4%,-2%) scale(1)}to{transform:translate(4%,2%) scale(1.08)}}
 /* ponytail: scroll-reveal — IntersectionObserver adds .in */
 .rv{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
@@ -83,6 +87,8 @@ footer a:hover{color:var(--gold)}
 </nav>
 
 <header class="hero">
+  <div class="skyline back"></div>
+  <div class="skyline front"></div>
   <div class="eyebrow">Chicago · Residential Property Management</div>
   <h1>Your property, <em>managed like ours.</em></h1>
   <p>Tenant placement, maintenance coordination, rent collection, and owner reporting — for Chicago landlords who want the rent check without the 2am calls.</p>
@@ -206,6 +212,23 @@ document.getElementById('intakeForm').addEventListener('submit', async e=>{
       if(y<600) hero.style.transform = 'translateY('+y*.18+'px)';
     },{passive:true});
   }
+})();
+</script>
+<script>
+// ponytail: skyline parallax — back 0.10x, front 0.25x, rAF-throttled
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const back=document.querySelector('.skyline.back'), front=document.querySelector('.skyline.front');
+  if(!back) return;
+  let tick=false;
+  addEventListener('scroll',()=>{
+    if(tick) return; tick=true;
+    requestAnimationFrame(()=>{
+      const y=scrollY;
+      if(y<900){ back.style.transform='translateY('+y*.10+'px)'; front.style.transform='translateY('+y*.25+'px)'; }
+      tick=false;
+    });
+  },{passive:true});
 })();
 </script>
 </body>
