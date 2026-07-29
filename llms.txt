@@ -1,0 +1,25 @@
+# FatCat Property Management
+
+> Residential property management in Chicago. Tenant placement, maintenance coordination, rent collection, weekly owner reports.
+
+## What it does
+- Manages single-family and small multi-unit residential properties
+- Weekly owner reports with rent collected, expenses, work orders
+- Photo attachments on every report
+- Email digest to owner on each new report
+- Owner portal: magic-link login (no password), property list, maintenance tickets, annual statements
+
+## For owners
+- Marketing: https://fatcatpm.com
+- Owner portal: https://portal-fatcatpm.vercel.app
+- Owner login: https://portal-fatcatpm.vercel.app (magic link)
+
+## For out-of-state owners
+- Partner broker referral program: documented in admin
+- Out-of-state property owners get the same portal
+- Maintenance ticket system with priority levels
+
+## Related
+- Parent: https://fatcatam.com (FatCat Asset Management)
+- Sister: https://dancruzhomes.com (Dan Cruz Homes)
+- Negotiation training: https://negotiatorsondemand.com
