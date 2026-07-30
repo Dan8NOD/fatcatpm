@@ -20,6 +20,8 @@
 - Maintenance ticket system with priority levels
 
 ## Related
-- Parent: https://fatcatam.com (FatCat Asset Management)
-- Sister: https://dancruzhomes.com (Dan Cruz Homes)
+- Parent: https://dancruzhomes.com (Dan Cruz Homes) — FatCat PM is its
+  property management division.
+- FatCat Asset Management (https://fatcatam.com) is FatCat PM's
+  investment/asset-management arm, not a separate parent company.
 - Negotiation training: https://negotiatorsondemand.com
